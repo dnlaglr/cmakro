@@ -2,6 +2,7 @@
 #define makro_vm
 
 #include "chunk.h"
+#include "map.h"
 #include "value.h"
 
 #define STACK_MAX 256
@@ -11,6 +12,7 @@ typedef struct {
   uint8_t* ip;
   Value stack[STACK_MAX];
   Value* stackTop;
+  Map strings;
   Object* objects;
 } VM;
 
