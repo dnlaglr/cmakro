@@ -46,7 +46,7 @@ bool mapGet(Map* map, ObjectString* key, Value* value) {
   Entry* entry = findEntry(map->entries, map->capacity, key);
   if (entry->key == NULL) return false;
 
-  value = entry->value;
+  *value = entry->value;
   return true;
 }
 
@@ -75,8 +75,8 @@ static void adjustCapacity(Map* map, int capacity) {
 }
 
 
-bool mapSet(Map* map, ObjectString* key, Value, value) {
-  if (map->count + 1 > map->entries * MAP_MAX_LOAD) {
+bool mapSet(Map* map, ObjectString* key, Value value) {
+  if (map->count + 1 > map->capacity * MAP_MAX_LOAD) {
     int capacity = GROW_CAPACITY(map->capacity);
     adjustCapacity(map, capacity);
   }
@@ -96,8 +96,8 @@ bool mapDelete(Map* map, ObjectString* key) {
   Entry* entry = findEntry(map->entries, map->capacity, key);
   if (entry->key == NULL) return false;
 
-  entry->key == NULL;
-  entry->value == BOOL_VAL(true);
+  entry->key = NULL;
+  entry->value = BOOL_VAL(true);
   return true;
 }
 
