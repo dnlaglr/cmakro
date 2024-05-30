@@ -144,6 +144,15 @@ static void binary() {
   }
 }
 
+static void literal() {
+  switch (parser.previous.type) {
+    case TOKEN_TRUE: emitByte(OP_TRUE); break;
+    case TOKEN_FALSE: emitByte(OP_FALSE); break;
+    case TOKEN_NULL: emitByte(OP_NULL); break;
+    default: return;
+  }
+}
+
 static void grouping() {
   expression();
   consume(TOKEN_RIGHT_PAREN, "Expect ')' after expression");
@@ -151,7 +160,7 @@ static void grouping() {
 
 static void number() {
   double value = strtod(parser.previous.start, NULL);
-  emitConstant(value);
+  emitConstant(NUMBER_VAL(value));
 }
 
 static void unary() {
@@ -191,17 +200,17 @@ ParseRule rules[] = {
   [TOKEN_AND] = {NULL, NULL, PREC_NONE},
   [TOKEN_CLASS] = {NULL, NULL, PREC_NONE},
   [TOKEN_ELSE] = {NULL, NULL, PREC_NONE},
-  [TOKEN_FALSE] = {NULL, NULL, PREC_NONE},
+  [TOKEN_FALSE] = {literal, NULL, PREC_NONE},
   [TOKEN_FOR] = {NULL, NULL, PREC_NONE},
   [TOKEN_FUN] = {NULL, NULL, PREC_NONE},
   [TOKEN_IF] = {NULL, NULL, PREC_NONE},
-  [TOKEN_NULL] = {NULL, NULL, PREC_NONE},
+  [TOKEN_NULL] = {literal, NULL, PREC_NONE},
   [TOKEN_OR] = {NULL, NULL, PREC_NONE},
   [TOKEN_PRINT] = {NULL, NULL, PREC_NONE},
   [TOKEN_RETURN] = {NULL, NULL, PREC_NONE},
   [TOKEN_SUPER] = {NULL, NULL, PREC_NONE},
   [TOKEN_THIS] = {NULL, NULL, PREC_NONE},
-  [TOKEN_TRUE] = {NULL, NULL, PREC_NONE},
+  [TOKEN_TRUE] = {literal, NULL, PREC_NONE},
   [TOKEN_VAR] = {NULL, NULL, PREC_NONE},
   [TOKEN_WHILE] = {NULL, NULL, PREC_NONE},
   [TOKEN_ERROR] = {NULL, NULL, PREC_NONE},
