@@ -11,7 +11,9 @@
 static Object* allocateObject(size_t size, ObjectType type) {
   Object* object = (Object*)reallocate(NULL, 0, size);
   object->type = type;
-  
+
+  object->next = vm.objects;
+  vm.objects = object;
   return object;
 }
 
