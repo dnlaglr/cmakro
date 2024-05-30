@@ -23,6 +23,10 @@ static ObjectString* allocateString(char* chars, int length) {
   return string;
 }
 
+ObjectString* takeString(char* chars, int length) {
+  return allocateString(chars, length);
+}
+
 ObjectString* copyString(const char* chars, int length) {
   char* heapChars = ALLOCATE(char, length + 1);
   memcpy(heapChars, chars, length);
